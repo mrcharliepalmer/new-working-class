@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teenage Dreams Are Hard to Beat — New Working Class Workshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,400&family=Source+Code+Pro:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FDFBF7;
+            --charcoal: #1a1a1a;
+            --red: #D93025;
+            --text-secondary: rgba(26, 26, 26, 0.5);
+            --shadow: 6px 6px 0px 0px var(--charcoal);
+            --shadow-sm: 4px 4px 0px 0px var(--charcoal);
+            --shadow-red: 6px 6px 0px 0px var(--red);
+        }
+
+        body {
+            font-family: 'Newsreader', serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* ── Slide System ── */
+        .slide {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            padding: 60px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* ── Typography ── */
+        h1, h2, h3, .slide-number {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .quote {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.15;
+            max-width: 800px;
+        }
+
+        .caption {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            letter-spacing: 1px;
+        }
+
+        .red {
+            color: var(--red);
+        }
+
+        /* ── Title Slide ── */
+        .title-slide {
+            background: var(--cream);
+            color: var(--charcoal);
+            padding: 0;
+            justify-content: flex-start;
+        }
+
+        .title-slide .title-content {
+            flex: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 80px 0;
+            width: 100%;
+        }
+
+        .title-slide .workshop-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--charcoal);
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+        }
+
+        .title-slide .highlight-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .title-slide .hand-drawn-underline {
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 100%;
+            height: 15px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .title-slide .workshop-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.35rem, 2.25vw, 1.725rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-style: normal;
+            margin-bottom: 0;
+        }
+
+        .fade-in-subtitle {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .fade-in-subtitle.visible {
+            opacity: 1;
+            max-width: 700px;
+            line-height: 1.4;
+            letter-spacing: 0.01em;
+        }
+
+        .title-slide .title-footer {
+            width: 100%;
+            position: relative;
+            line-height: 0;
+            display: flex;
+            flex-direction: column;
+            flex: 0.8;
+        }
+
+        .title-slide .title-divider {
+            display: block;
+            width: 100%;
+            height: auto;
+            fill: var(--charcoal);
+            margin-bottom: -1px;
+        }
+
+        .title-slide .title-bar {
+            background: var(--charcoal);
+            width: 100%;
+            flex: 1;
+            position: relative;
+        }
+
+        .title-slide .byline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(253, 251, 247, 0.5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1;
+        }
+
+        /* ── Image — no frame ── */
+        .img-bare img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ── Image Frame (with border) ── */
+        .img-frame {
+            border: 2px solid var(--charcoal);
+            overflow: hidden;
+            background: white;
+            box-shadow: var(--shadow-red);
+        }
+
+        .img-frame img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* ── Browser Frame ── */
+        .browser-frame {
+            border: 2px solid var(--charcoal);
+            box-shadow: var(--shadow);
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+
+        .browser-frame .browser-bar {
+            background: var(--charcoal);
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .browser-frame .browser-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(253,251,247,0.3);
+        }
+
+        .browser-frame .browser-url {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(253,251,247,0.5);
+            margin-left: 10px;
+        }
+
+        /* ── Divider Slide ── */
+        .divider-slide {
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+
+        .divider-slide .quote {
+            color: var(--cream);
+        }
+
+        .divider-slide .caption {
+            color: rgba(253, 251, 247, 0.4);
+        }
+
+        /* ── Typewriter ── */
+        .typewriter-quote {
+            font-size: clamp(3rem, 7.5vw, 6rem);
+            white-space: nowrap;
+            max-width: none;
+        }
+        .typewriter-cursor {
+            color: var(--red);
+            animation: blink 0.7s step-end infinite;
+            font-weight: 300;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* ── Steadman Demo Button ── */
+        .steadman-demo-btn {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+            background-color: #C05621;
+            color: #F7F5EC;
+            padding: 24px 48px;
+            border: 3px solid #1C2B42;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0px 0px 0px 0px #1C2B42;
+        }
+        .steadman-demo-btn:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0px 0px #1C2B42;
+        }
+        .steadman-demo-btn:active {
+            transform: translate(0px, 0px);
+            box-shadow: 0px 0px 0px 0px #1C2B42;
+        }
+
+        /* ── Steadman Demo V2 (Input + Button) ── */
+        .steadman-demo-input {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: #1C2B42;
+            background-color: #FFFFFF;
+            border: 3px solid #1C2B42;
+            border-radius: 8px;
+            padding: 24px 28px;
+            outline: none;
+            width: 420px;
+            transition: all 0.2s ease;
+            box-shadow: 4px 4px 0px 0px rgba(28, 43, 66, 0.1);
+        }
+        .steadman-demo-input::placeholder {
+            color: #495568;
+            opacity: 0.7;
+        }
+        .steadman-demo-input:focus {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px rgba(28, 43, 66, 0.2);
+            border-color: #C05621;
+        }
+        .steadman-demo-btn-v2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+            background-color: #C05621;
+            color: #F7F5EC;
+            padding: 24px 48px;
+            border: 3px solid #1C2B42;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0px 0px #1C2B42;
+            transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .steadman-demo-btn-v2:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 5px 5px 0px 0px #1C2B42;
+            background-color: #D6642C;
+        }
+        .steadman-demo-btn-v2:active {
+            transform: translate(0px, 0px);
+            box-shadow: 0px 0px 0px 0px #1C2B42;
+        }
+
+        /* ── Code Block (scrollable) ── */
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border: 2px solid var(--charcoal);
+            box-shadow: var(--shadow-red);
+            border-radius: 8px;
+            padding: 30px 35px;
+            text-align: left;
+            font-family: 'Source Code Pro', monospace;
+            font-size: clamp(0.6rem, 0.9vw, 0.78rem);
+            line-height: 1.6;
+            max-width: 700px;
+            width: 90%;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre;
+            tab-size: 2;
+        }
+
+        .code-block::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
+            border-radius: 3px;
+        }
+
+        /* ── Logo Slide ── */
+        .logo-row {
+            display: flex;
+            align-items: center;
+            gap: 140px;
+        }
+
+        .logo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ── Three Roles ── */
+        .roles-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .studio-logo-text {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: clamp(2.3rem, 4.5vw, 3.84rem);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--charcoal);
+            line-height: 1;
+        }
+
+        .studio-logo-text .thin { font-weight: 300; }
+        .studio-logo-text .bold { font-weight: 700; color: var(--red); }
+
+        .roles-grid {
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+
+        .role-card {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        .role-card .role-illustration {
+            width: 360px;
+            height: 360px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role-card .role-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 400;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ── Section Title (e.g. "Over to you") ── */
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 7.5vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--charcoal);
+        }
+
+        /* ── Exercise Slides ── */
+        .exercise-slide {
+            text-align: left;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 60px 10vw;
+            overflow-y: auto;
+        }
+
+        .exercise-slide h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+
+        .exercise-slide .round-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 8px;
+        }
+
+        .exercise-slide p {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+            line-height: 1.6;
+            max-width: 700px;
+            margin-bottom: 14px;
+            color: var(--text-secondary);
+        }
+
+        .prompt-block {
+            background: white;
+            border: 2px solid var(--charcoal);
+            box-shadow: var(--shadow);
+            padding: 20px 28px;
+            max-width: 700px;
+            width: 100%;
+            margin: 10px 0;
+            position: relative;
+            cursor: pointer;
+            transition: box-shadow 0.15s, transform 0.15s;
+        }
+
+        .prompt-block:hover {
+            box-shadow: 4px 4px 0px 0px var(--charcoal);
+            transform: translate(2px, 2px);
+        }
+
+        .prompt-block:active {
+            box-shadow: 0px 0px 0px 0px var(--charcoal);
+            transform: translate(6px, 6px);
+        }
+
+        .prompt-block .prompt-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+            line-height: 1.6;
+        }
+
+        .prompt-block .copy-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 12px;
+            transition: color 0.2s;
+        }
+
+        .prompt-block.copied .copy-label {
+            color: var(--red);
+        }
+
+        .tips {
+            list-style: none;
+            padding: 0;
+            max-width: 700px;
+        }
+
+        .tips li {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            padding-left: 0;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .tips li::before {
+            display: none;
+        }
+
+        /* ── How-to Steps ── */
+        .how-to {
+            display: flex;
+            gap: 40px;
+            max-width: 700px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .how-to-col {
+            flex: 1;
+        }
+
+        .how-to-col h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+
+        .how-to-col ol {
+            list-style: none;
+            padding: 0;
+            counter-reset: step;
+        }
+
+        .how-to-col ol li {
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-left: 28px;
+            position: relative;
+            color: var(--text-secondary);
+            counter-increment: step;
+        }
+
+        .how-to-col ol li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--red);
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .how-to-col .kb {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.8em;
+            background: rgba(26, 26, 26, 0.06);
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid rgba(26, 26, 26, 0.1);
+        }
+
+        /* ── Navigation ── */
+        .nav-prev, .nav-next {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: rgba(26, 26, 26, 0.15);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 20px;
+            transition: color 0.2s;
+            user-select: none;
+            line-height: 1;
+        }
+
+        .nav-prev:hover, .nav-next:hover {
+            color: rgba(26, 26, 26, 0.4);
+        }
+
+        .nav-prev { left: 20px; }
+        .nav-next { right: 20px; }
+
+        .nav-prev.hidden { display: none; }
+
+        /* ── Progress Bar ── */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--red);
+            transition: width 0.3s ease;
+            z-index: 200;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+            }
+
+            .exercise-slide {
+                padding: 40px 30px;
+            }
+
+            .nav-prev { left: 8px; font-size: 2rem; }
+            .nav-next { right: 8px; font-size: 2rem; }
+
+            .logo-row {
+                gap: 40px;
+            }
+
+            .roles-grid {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .role-card {
+                max-width: 100%;
+            }
+
+            .code-block {
+                padding: 20px;
+                font-size: 0.55rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- THE STORY                                                  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<!-- SLIDE 1: Title (cream with wavy divider to dark footer) -->
+<div class="slide title-slide active" data-slide="1">
+    <div class="title-content">
+        <div class="workshop-title">Teenage Dreams<br>Are <span class="highlight-wrapper">Hard to Beat<svg class="hand-drawn-underline" viewBox="0 0 200 15" preserveAspectRatio="none"><path d="M3,9 C25,14 45,6 70,11 C95,16 115,5 140,10 C165,15 180,7 197,9" fill="none" stroke="#D93025" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="workshop-subtitle fade-in-subtitle">or, How I Learned to Stop Worrying and Love AI</div>
+    </div>
+    <div class="title-footer">
+        <svg class="title-divider" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,0 C150,15 300,5 450,10 C600,18 750,5 900,12 C1050,20 1200,5 1200,0 L1200,60 L0,60 Z" /></svg>
+        <div class="title-bar">
+            <div class="byline">Charlie Palmer · New Working Class</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 2: The Origin — photo of Charlie at 16 (red shadow, bigger) -->
+<div class="slide" data-slide="2">
+    <div class="img-frame" style="max-width: 900px; border: none;">
+        <img src="img/Nige.JPG" alt="Charlie aged 16">
+    </div>
+</div>
+
+<!-- SLIDE 3: The Career — Charlie's leaving card from Channel 4 -->
+<div class="slide" data-slide="3">
+    <div class="img-frame" style="border: none;">
+        <img src="img/Charlie Card FINAL.png" alt="Charlie's leaving card from Channel 4" style="height: 70vh; width: auto;">
+    </div>
+</div>
+
+<!-- SLIDE 4: The Cairn — bare, no box, no caption -->
+<div class="slide" data-slide="4">
+    <div class="img-bare">
+        <img src="img/steadman-chatgpt.png" alt="Steadman ChatGPT screenshot" style="max-height: 50vh;">
+    </div>
+</div>
+
+<!-- SLIDE 5: The Question — typed like a frustrated prompt -->
+<div class="slide" data-slide="5">
+    <div class="quote typewriter-quote"><span class="typewriter-text"></span><span class="typewriter-cursor">|</span></div>
+</div>
+
+<!-- SLIDE 6: The Mockup — Nano Banana screenshot -->
+<div class="slide" data-slide="6">
+    <div class="img-bare">
+        <img src="img/nano-banana.png" alt="Nano Banana mockup" style="max-height: 70vh;">
+    </div>
+</div>
+
+<!-- SLIDE 7: The Code — real HTML, scrollable -->
+<div class="slide" data-slide="7">
+    <div class="code-block"><span style="color:#89b4fa;">&lt;button</span> <span style="color:#f9e2af;">class</span>=<span style="color:#a6e3a1;">"steadman-btn-primary"</span><span style="color:#89b4fa;">&gt;</span>
+  Get Started
+<span style="color:#89b4fa;">&lt;/button&gt;</span>
+
+<span style="color:#89b4fa;">&lt;style&gt;</span>
+  <span style="color: #6c7086;">/* Import Space Grotesk if not already linked */</span>
+  <span style="color:#cba6f7;">@import</span> <span style="color:#a6e3a1;">url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;display=swap')</span>;
+
+  <span style="color:#cba6f7;">:root</span> {
+    <span style="color:#f9e2af;">--steadman-navy</span>: <span style="color:#a6e3a1;">#1C2B42</span>;
+    <span style="color:#f9e2af;">--steadman-cream</span>: <span style="color:#a6e3a1;">#F7F5EC</span>;
+    <span style="color:#f9e2af;">--steadman-orange</span>: <span style="color:#a6e3a1;">#C05621</span>;
+    <span style="color:#f9e2af;">--steadman-shadow</span>: <span style="color:#a6e3a1;">#1C2B42</span>;
+  }
+
+  <span style="color:#89b4fa;">.steadman-btn-primary</span> {
+    <span style="color: #6c7086;">/* Typography */</span>
+    <span style="color:#f9e2af;">font-family</span>: <span style="color:#a6e3a1;">'Space Grotesk'</span>, sans-serif;
+    <span style="color:#f9e2af;">font-weight</span>: <span style="color:#fab387;">700</span>;
+    <span style="color:#f9e2af;">font-size</span>: <span style="color:#fab387;">1rem</span>;
+    <span style="color:#f9e2af;">letter-spacing</span>: <span style="color:#fab387;">-0.02em</span>;
+
+    <span style="color: #6c7086;">/* Box Model */</span>
+    <span style="color:#f9e2af;">background-color</span>: <span style="color:#a6e3a1;">var(--steadman-orange)</span>;
+    <span style="color:#f9e2af;">color</span>: <span style="color:#a6e3a1;">var(--steadman-cream)</span>;
+    <span style="color:#f9e2af;">padding</span>: <span style="color:#fab387;">12px 24px</span>;
+    <span style="color:#f9e2af;">border</span>: <span style="color:#fab387;">2px</span> solid <span style="color:#a6e3a1;">var(--steadman-navy)</span>;
+    <span style="color:#f9e2af;">border-radius</span>: <span style="color:#fab387;">6px</span>;
+    <span style="color:#f9e2af;">cursor</span>: pointer;
+
+    <span style="color: #6c7086;">/* Animation Setup */</span>
+    <span style="color:#f9e2af;">position</span>: relative;
+    <span style="color:#f9e2af;">transition</span>: all <span style="color:#fab387;">0.2s</span> cubic-bezier(<span style="color:#fab387;">0.25, 0.46, 0.45, 0.94</span>);
+    <span style="color:#f9e2af;">box-shadow</span>: <span style="color:#fab387;">0px 0px 0px 0px</span> <span style="color:#a6e3a1;">var(--steadman-shadow)</span>;
+  }
+
+  <span style="color: #6c7086;">/* The "Tactile" Hover Effect */</span>
+  <span style="color:#89b4fa;">.steadman-btn-primary:hover</span> {
+    <span style="color:#f9e2af;">transform</span>: <span style="color:#fab387;">translate(-4px, -4px)</span>;
+    <span style="color:#f9e2af;">box-shadow</span>: <span style="color:#fab387;">4px 4px 0px 0px</span> <span style="color:#a6e3a1;">var(--steadman-shadow)</span>;
+  }
+
+  <span style="color: #6c7086;">/* Active State (Clicking) */</span>
+  <span style="color:#89b4fa;">.steadman-btn-primary:active</span> {
+    <span style="color:#f9e2af;">transform</span>: <span style="color:#fab387;">translate(0px, 0px)</span>;
+    <span style="color:#f9e2af;">box-shadow</span>: <span style="color:#fab387;">0px 0px 0px 0px</span> <span style="color:#a6e3a1;">var(--steadman-shadow)</span>;
+  }
+<span style="color:#89b4fa;">&lt;/style&gt;</span></div>
+
+</div>
+
+<!-- SLIDE 8: The Button — interactive Steadman button -->
+<div class="slide" data-slide="8">
+    <button class="steadman-demo-btn" onclick="this.classList.toggle('pressed')">Get Started</button>
+</div>
+
+<!-- SLIDE 9: The Iteration — input + button combo -->
+<div class="slide" data-slide="9">
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
+        <input type="text" class="steadman-demo-input" placeholder="Enter your email...">
+        <button class="steadman-demo-btn-v2">Get Started</button>
+    </div>
+</div>
+
+<!-- SLIDE 10: The Website — Steadman (bigger) -->
+<div class="slide" data-slide="10">
+    <div class="browser-frame" style="max-width: 70vw; width: 100%;">
+        <div class="browser-bar">
+            <div class="browser-dot"></div>
+            <div class="browser-dot"></div>
+            <div class="browser-dot"></div>
+            <span class="browser-url">steadman.ai</span>
+        </div>
+        <div style="width: 100%; aspect-ratio: 16/10; overflow: hidden; position: relative;">
+            <iframe src="https://mrcharliepalmer.github.io/steadman_mockup_v3/" style="width: 200%; height: 200%; border: none; pointer-events: none; transform: scale(0.5); transform-origin: top left;"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10: The Compounding — TPS26 (bigger) -->
+<div class="slide" data-slide="11">
+    <div class="browser-frame" style="max-width: 70vw; width: 100%;">
+        <div class="browser-bar">
+            <div class="browser-dot"></div>
+            <div class="browser-dot"></div>
+            <div class="browser-dot"></div>
+            <span class="browser-url">thepodcastshowlondon.com</span>
+        </div>
+        <div style="width: 100%; aspect-ratio: 16/10; overflow: hidden; position: relative;">
+            <iframe src="https://mrcharliepalmer.github.io/TPS26-website-redesign/" style="width: 200%; height: 200%; border: none; pointer-events: none; transform: scale(0.5); transform-origin: top left;"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: The System — Red Slash Studio + three roles (cream background) -->
+<div class="slide" data-slide="12" style="justify-content: center;">
+    <div class="roles-section" style="gap: 0; margin-top: 40px; max-width: 100%; padding: 0 40px;">
+        <div class="roles-grid">
+            <div class="role-card">
+                <div class="role-illustration"><img src="img/audience-strategist.png" alt="Audience Strategist" style="width: 100%; height: 100%; object-fit: contain;"></div>
+                <div class="role-name">Audience Strategist</div>
+            </div>
+            <div class="role-card">
+                <div class="role-illustration"><img src="img/brand-strategist.png" alt="Brand Strategist" style="width: 100%; height: 100%; object-fit: contain;"></div>
+                <div class="role-name">Brand Strategist</div>
+            </div>
+            <div class="role-card">
+                <div class="role-illustration"><img src="img/creative-director.png" alt="Creative Director" style="width: 100%; height: 100%; object-fit: contain;"></div>
+                <div class="role-name">Creative Director</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 12: Teenage Charlie callback -->
+<div class="slide" data-slide="13">
+    <div class="img-frame" style="max-width: 900px; border: none;">
+        <img src="img/Nige.JPG" alt="Charlie aged 16">
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- EXERCISE                                                    -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<!-- SLIDE 13: Over to you -->
+<div class="slide" data-slide="14" style="justify-content: center;">
+    <h1 class="section-title">Over to you</h1>
+</div>
+
+<!-- SLIDE 14: Setup + Round 1 -->
+<div class="slide exercise-slide" data-slide="15">
+    <div class="round-label">Step 1</div>
+    <h2>Pick something you care about</h2>
+    <p>A side project, a cause, a hobby, a fake business — anything. You need one sentence describing what it is.</p>
+    <p>Open your AI tool of choice: ChatGPT, Claude, Gemini — whatever you have access to.</p>
+    <div class="round-label" style="margin-top: 28px;">Step 2</div>
+    <h2>Give it the vaguest possible brief</h2>
+    <p>Copy this prompt and replace [your thing] with your one sentence:</p>
+    <div class="prompt-block" onclick="copyPrompt(this)">
+        <div class="prompt-text">Build me a simple landing page for [your thing]. Give me the full HTML in a single file that I can open in my browser.</div>
+        <div class="copy-label">Tap to copy</div>
+    </div>
+    <div class="how-to" style="margin-top: 16px;">
+        <div class="how-to-col">
+            <h3>Mac</h3>
+            <ol>
+                <li>Copy all the code it gave you</li>
+                <li>Open <strong>TextEdit</strong> → Format → Make Plain Text</li>
+                <li>Paste the code in</li>
+                <li>File → Save. Name it <span class="kb">mysite.html</span></li>
+                <li>Double-click the file to open in your browser</li>
+            </ol>
+        </div>
+        <div class="how-to-col">
+            <h3>Windows</h3>
+            <ol>
+                <li>Copy all the code it gave you</li>
+                <li>Open <strong>Notepad</strong></li>
+                <li>Paste the code in</li>
+                <li>File → Save As. Name it <span class="kb">mysite.html</span> (change "Save as type" to All Files)</li>
+                <li>Double-click the file to open in your browser</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 15: Step 3 -->
+<div class="slide exercise-slide" data-slide="16">
+    <div class="round-label">Step 3</div>
+    <h2>Tell it what you like</h2>
+    <ul class="tips">
+        <li><strong>Share references.</strong> Show it what you like. A website, a screenshot, a vibe.</li>
+        <li><strong>Give specific feedback.</strong> Not "I don't like it" but "the header feels too corporate, I want something warmer."</li>
+        <li><strong>Assign it a role.</strong> Make it your lead designer, not a random assistant.</li>
+    </ul>
+    <div class="prompt-block" onclick="copyPrompt(this)">
+        <div class="prompt-text">I need you to act as my lead designer.<br><br>I'm building a landing page for [your thing]. Here's what I want it to feel like: [describe 2-3 websites or aesthetics you like].<br><br>The current version feels too generic. I want it to feel [your adjectives — e.g. warm, bold, playful, minimal].<br><br>Rebuild the full HTML in a single file.</div>
+        <div class="copy-label">Tap to copy</div>
+    </div>
+</div>
+
+<!-- SLIDE 16: Steps 4 & 5 -->
+<div class="slide exercise-slide" data-slide="17">
+    <div class="round-label">Step 4</div>
+    <h2>Find your fonts</h2>
+    <p>Ask your AI to suggest 3 font pairings for your site — a headline font and a body font. Tell it the vibe you're going for.</p>
+    <div class="prompt-block" onclick="copyPrompt(this)">
+        <div class="prompt-text">Suggest 3 Google Font pairings for my site. For each one, give me the headline font and the body font, and a one-line description of the vibe.<br><br>I want something that feels [your adjectives].</div>
+        <div class="copy-label">Tap to copy</div>
+    </div>
+    <div class="round-label" style="margin-top: 28px;">Step 5</div>
+    <h2>See them side by side</h2>
+    <p>Don't try to decide from a list. Ask it to show you.</p>
+    <div class="prompt-block" onclick="copyPrompt(this)">
+        <div class="prompt-text">Build me a single HTML page that shows all 3 font pairings side by side. Use my site's headline and a paragraph of body copy so I can compare them properly.</div>
+        <div class="copy-label">Tap to copy</div>
+    </div>
+</div>
+
+<!-- SLIDE 17: Step 6 -->
+<div class="slide exercise-slide" data-slide="18">
+    <div class="round-label">Step 6</div>
+    <h2>Your brand DNA</h2>
+    <p>Your website's HTML already contains your fonts, your colours, your layout. That's not just a website — it's a design system. Point your AI at it and it can make anything in the same style.</p>
+    <div class="prompt-block" onclick="copyPrompt(this)">
+        <div class="prompt-text">Here's the HTML for my website:<br><br>[paste your HTML]<br><br>Using the same fonts, colours and style, create a simple square social media graphic that says [what you want it to say]. Give me the full HTML in a single file.</div>
+        <div class="copy-label">Tap to copy</div>
+    </div>
+</div>
+
+<!-- SLIDE 18: What's next -->
+<div class="slide exercise-slide" data-slide="19">
+    <div class="round-label">What's next</div>
+    <h2>Want to put it online?</h2>
+    <p>Ask your AI how to publish your site on GitHub Pages. It's free.</p>
+    <h2 style="margin-top: 24px;">Want it on your own URL?</h2>
+    <p>Ask your AI how to link your GitHub to a custom domain.</p>
+    <h2 style="margin-top: 24px;">Want to test different ideas?</h2>
+    <p>Ask your AI to give you 3 versions and compare them side by side.</p>
+    <h2 style="margin-top: 24px;">Want to understand the code?</h2>
+    <p>Ask your AI to explain your HTML line by line.</p>
+    <h2 style="margin-top: 24px;">Want to ask me anything?</h2>
+    <p>Email charlie@steadman.ai</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- NAVIGATION                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<button class="nav-prev" onclick="prevSlide()" id="prevBtn">&lsaquo;</button>
+<button class="nav-next" onclick="nextSlide()" id="nextBtn">&rsaquo;</button>
+
+<script>
+    let current = 1;
+    const total = document.querySelectorAll('.slide').length;
+
+    function showSlide(n) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        const target = document.querySelector(`[data-slide="${n}"]`);
+        if (target) {
+            target.classList.add('active');
+            current = n;
+        }
+        updateUI();
+        // Subtitle fade-in for slide 1
+        const subtitle = target?.querySelector('.fade-in-subtitle');
+        if (subtitle) {
+            subtitle.classList.remove('visible');
+            setTimeout(() => subtitle.classList.add('visible'), 3000);
+        }
+        // Typewriter effect with frustrated typos for slide 5
+        const tw = target?.querySelector('.typewriter-text');
+        if (tw) {
+            if (window._twTimer) clearTimeout(window._twTimer);
+            tw.textContent = '';
+            // Sequence: chars, null = backspace, {pause:ms} = wait
+            const seq = [
+                'W','h','y',' ','d','o',' ','I',' ','l','i','k','e',' ',
+                't','g',null,null,'h','i','s','?',
+                {pause: 1200},
+                null,null,null,null,
+                't','h','i','s','?'
+            ];
+            let i = 0;
+            function step() {
+                if (i >= seq.length) return;
+                const ch = seq[i++];
+                if (ch && typeof ch === 'object' && ch.pause) {
+                    window._twTimer = setTimeout(step, ch.pause);
+                } else if (ch === null) {
+                    tw.textContent = tw.textContent.slice(0, -1);
+                    window._twTimer = setTimeout(step, 60);
+                } else {
+                    tw.textContent += ch;
+                    const delay = ch === ' ' ? 140 + Math.random() * 80 : 70 + Math.random() * 50;
+                    window._twTimer = setTimeout(step, delay);
+                }
+            }
+            setTimeout(step, 600);
+        }
+    }
+
+    function nextSlide() {
+        if (current < total) showSlide(current + 1);
+    }
+
+    function prevSlide() {
+        if (current > 1) showSlide(current - 1);
+    }
+
+    function updateUI() {
+        document.getElementById('progressBar').style.width = `${(current / total) * 100}%`;
+
+        const isDark = document.querySelector('.slide.active').classList.contains('divider-slide');
+        document.getElementById('prevBtn').style.color = isDark ? 'rgba(253,251,247,0.15)' : 'rgba(26,26,26,0.15)';
+        document.getElementById('nextBtn').style.color = isDark ? 'rgba(253,251,247,0.15)' : 'rgba(26,26,26,0.15)';
+
+        // Hide left arrow on first slide
+        document.getElementById('prevBtn').classList.toggle('hidden', current === 1);
+    }
+
+    function copyPrompt(el) {
+        const text = el.querySelector('.prompt-text').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            el.classList.add('copied');
+            el.querySelector('.copy-label').textContent = 'Copied!';
+            setTimeout(() => {
+                el.classList.remove('copied');
+                el.querySelector('.copy-label').textContent = 'Tap to copy';
+            }, 2000);
+        });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            nextSlide();
+        }
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide();
+        }
+        if (e.key === 'f' || e.key === 'F') {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen).call(document.documentElement);
+            } else {
+                (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            }
+        }
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? nextSlide() : prevSlide();
+        }
+    });
+
+    updateUI();
+</script>
+
+</body>
+</html>

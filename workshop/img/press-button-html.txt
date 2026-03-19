@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  /* 1. Import Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Lora:wght@400&display=swap');
+
+  /* 2. Page Setup (Centers everything on screen) */
+  body {
+    background-color: #F7F5EC; /* Canvas Cream */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  /* 3. The Input Field (Stationery Style) */
+  .steadman-input {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: #1C2B42;
+    background-color: #FFFFFF;
+    
+    border: 2px solid #1C2B42;
+    border-radius: 6px;
+    padding: 13px 16px; /* Matched height to button */
+    outline: none;
+    width: 250px;
+    
+    transition: all 0.2s ease;
+    box-shadow: 4px 4px 0px 0px rgba(28, 43, 66, 0.1);
+  }
+
+  .steadman-input::placeholder {
+    color: #495568;
+    opacity: 0.7;
+  }
+
+  .steadman-input:focus {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px rgba(28, 43, 66, 0.2); 
+    border-color: #C05621;
+  }
+
+  /* 4. The Button (UPDATED: "Typewriter" Style) */
+  .steadman-btn-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+    
+    background-color: #C05621; /* Burnt Orange */
+    color: #F7F5EC;
+    padding: 13px 24px;
+    border: 2px solid #1C2B42;
+    border-radius: 6px;
+    cursor: pointer;
+    
+    /* NEW BEHAVIOR: Starts "Lifted" */
+    position: relative;
+    transform: translate(-4px, -4px); 
+    box-shadow: 4px 4px 0px 0px #1C2B42; /* Permanent Hard Shadow */
+    
+    transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* HOVER: Lifts just a tiny bit more */
+  .steadman-btn-primary:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 5px 5px 0px 0px #1C2B42;
+    background-color: #D6642C; /* Slight brighten */
+  }
+
+  /* CLICK: SQUISHES FLAT */
+  .steadman-btn-primary:active {
+    transform: translate(0px, 0px);
+    box-shadow: 0px 0px 0px 0px #1C2B42;
+  }
+
+  /* 5. Layout Container */
+  .input-group {
+    display: flex;
+    gap: 16px; /* Spacing between input and button */
+    align-items: flex-start; /* Aligns them nicely */
+  }
+</style>
+</head>
+<body>
+
+  <div class="input-group">
+    <input type="text" class="steadman-input" placeholder="Enter your email...">
+    <button class="steadman-btn-primary">Get Started</button>
+  </div>
+
+</body>
+</html>
